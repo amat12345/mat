@@ -28,7 +28,7 @@ jobs:
 
     - name: Enabling RDP Access
 
-        run: |
+        run:
 
           Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
 
