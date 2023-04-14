@@ -26,23 +26,27 @@ jobs:
 
         NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
 
-    - name: Enable TS
+    - name: Enabling RDP Access
 
-      run: |
+        run: |
 
-Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
 
           Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
           Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
 
-          Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok.exe tcp 3389 --region in"'
+      - name: Creating Tunnel [CPU 2 Core - 7GB Ram - 256 SSD]
 
-      - name: Upload Softwares 
+        run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok.exe tcp 3389 --region in"'
+
+        
+
+      - name: Upload Softwares To Desktop
 
         run: cmd /c Uploads.bat
 
-      - name: Log In To Remote Desktop Protocol
+      - name: Connect to RDP [Copy ip, username, password from here]
 
         run: cmd /c start.bat
 
